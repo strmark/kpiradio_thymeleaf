@@ -1,0 +1,13 @@
+@import "custom";
+@import "~bootstrap/scss/bootstrap";
+@import '~flatpickr/dist/flatpickr';
+
+.alarm-on {
+  background-color: #28a745 !important;
+  color: #ffffff !important;
+}
+
+.alarm-off {
+  background-color: #dc3545 !important;
+  color: #ffffff !important;
+}

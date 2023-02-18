@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+        layout:decorate="~{layout}">
+    <head>
+        <title th:text="#{webRadio.list.headline}" />
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <div class="d-flex flex-wrap mb-4">
+                <h1 th:text="#{webRadio.list.headline}" class="flex-grow-1" />
+                <div>
+                    <a th:href="@{/webRadios/add}" th:text="#{webRadio.list.createNew}" class="btn btn-primary ms-2" />
+                </div>
+            </div>
+            <div th:if="${webRadios.empty}" th:text="#{webRadio.list.empty}" />
+            <div th:if="${!webRadios.empty}" class="table-responsive">
+                <table class="table table-striped table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th th:text="#{webRadio.name.label}" scope="col" />
+                            <th th:text="#{webRadio.url.label}" scope="col" />
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="webRadio : ${webRadios}">
+                        <td th:text="${webRadio.name}"/>
+                        <td th:text="${webRadio.url}"/>
+                        <td>
+                            <div class="float-end text-nowrap">
+                                <a th:href="@{/webRadios/edit/{id}(id=${webRadio.id})}" class="btn btn-sm btn-info" th:title="#{webRadio.list.play}">
+                                    <i class="fa-solid fa-play"></i> </a>
+                                <a th:href="@{/webRadios/edit/{id}(id=${webRadio.id})}" class="btn btn-sm btn-info" th:title="#{webRadio.list.edit}">
+                                    <i class="fa-solid fa-pen-to-square"></i> </a>
+                                <form th:action="@{/webRadios/delete/{id}(id=${webRadio.id})}"
+                                      th:data-confirm-message="#{delete.confirm}" method="post"
+                                      class="js-submit-confirm d-inline">
+                                    <button th:title="#{webRadio.list.delete}" type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa-solid fa-trash"></i> </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </body>
+</html>
