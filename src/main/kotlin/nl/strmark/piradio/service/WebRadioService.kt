@@ -16,16 +16,12 @@ class WebRadioService(
 
     fun findAll(): List<WebRadioDTO> {
         val webRadios: List<WebRadio> = webRadioRepository.findAll(Sort.by("id"))
-        return webRadios.stream()
-            .map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
-            .toList()
+        return webRadios.map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
     }
 
     fun findByIsDefault(isDefault: Boolean): List<WebRadioDTO> {
         val webRadios: List<WebRadio> = webRadioRepository.findByIsDefault(true)
-        return webRadios.stream()
-            .map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
-            .toList()
+        return webRadios.map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
     }
 
     fun `get`(id: Long): WebRadioDTO {
@@ -68,15 +64,14 @@ class WebRadioService(
 
     @Transactional
     fun getReferencedWarning(id: Long): String? {
-        val webRadio: WebRadio = webRadioRepository.findById(id)
-            .orElseThrow { NotFoundException() }
-        if (!webRadio.alarmWebradioAlarms!!.isEmpty()) {
-            return WebUtils.getMessage(
+        val webRadio: WebRadio = webRadioRepository.findById(id).orElseThrow { NotFoundException() }
+        return webRadio.alarmWebradioAlarms?.let { alarms ->
+            WebUtils.getMessage(
                 "webRadio.alarm.manyToOne.referenced",
-                webRadio.alarmWebradioAlarms!!.iterator().next().id
+                alarms.iterator().next().id
             )
         }
-        return null
     }
-
 }
+
+

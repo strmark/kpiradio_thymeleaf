@@ -10,7 +10,6 @@ import org.springframework.web.servlet.LocaleResolver
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.javaField
 
-
 @Component
 class WebUtils(
     messageSource: MessageSource,

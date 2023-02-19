@@ -1,14 +1,12 @@
 package nl.strmark.piradio.service
 
 import nl.strmark.piradio.domain.Alarm
-import nl.strmark.piradio.domain.WebRadio
 import nl.strmark.piradio.model.AlarmDTO
 import nl.strmark.piradio.repos.AlarmRepository
 import nl.strmark.piradio.repos.WebRadioRepository
 import nl.strmark.piradio.util.NotFoundException
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
-
 
 @Service
 class AlarmService(
@@ -19,16 +17,12 @@ class AlarmService(
 
     fun findAll(): List<AlarmDTO> {
         val alarms: List<Alarm> = alarmRepository.findAll(Sort.by("id"))
-        return alarms.stream()
-            .map { alarm -> mapToDTO(alarm, AlarmDTO()) }
-            .toList()
+        return alarms.map { alarm -> mapToDTO(alarm, AlarmDTO()) }
     }
 
     fun findByActive(active: Boolean): List<AlarmDTO> {
         val alarms: List<Alarm> = alarmRepository.findByActive(active)
-        return alarms.stream()
-            .map { alarm -> mapToDTO(alarm, AlarmDTO()) }
-            .toList()
+        return alarms.map { alarm -> mapToDTO(alarm, AlarmDTO()) }
     }
 
     fun `get`(id: Long): AlarmDTO {
@@ -83,10 +77,10 @@ class AlarmService(
         alarm.startTime = alarmDTO.startTime
         alarm.autoStopMinutes = alarmDTO.autoStopMinutes
         alarm.active = alarmDTO.active
-        val alarmWebradio: WebRadio? = if (alarmDTO.alarmWebradio == null) null else
-            webRadioRepository.findById(alarmDTO.alarmWebradio!!)
+        alarm.alarmWebradio = alarmDTO.alarmWebradio?.let{ webradio ->
+            webRadioRepository.findById(webradio)
                 .orElseThrow { NotFoundException("alarmWebradio not found") }
-        alarm.alarmWebradio = alarmWebradio
+        }
         return alarm
     }
 
