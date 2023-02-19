@@ -19,11 +19,13 @@ class RestExceptionHandler {
 
     @ExceptionHandler(NotFoundException::class)
     fun handleNotFound(exception: NotFoundException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse()
-        errorResponse.httpStatus = HttpStatus.NOT_FOUND.value()
-        errorResponse.exception = exception::class.simpleName
-        errorResponse.message = exception.message
-        return ResponseEntity(errorResponse, HttpStatus.NOT_FOUND)
+        return ResponseEntity(
+            ErrorResponse(
+                httpStatus = HttpStatus.NOT_FOUND.value(),
+                exception = exception::class.simpleName,
+                message = exception.message
+            ), HttpStatus.NOT_FOUND
+        )
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
@@ -31,29 +33,27 @@ class RestExceptionHandler {
             ResponseEntity<ErrorResponse> {
         val bindingResult: BindingResult = exception.bindingResult
         val fieldErrors: List<FieldError> = bindingResult.fieldErrors
-            .stream()
-            .map { error ->
-                var fieldError = FieldError()
-                fieldError.errorCode = error.code
-                fieldError.field = error.field
-                fieldError
-            }
-            .toList()
-        val errorResponse = ErrorResponse()
-        errorResponse.httpStatus = HttpStatus.BAD_REQUEST.value()
-        errorResponse.exception = exception::class.simpleName
-        errorResponse.fieldErrors = fieldErrors
-        return ResponseEntity(errorResponse, HttpStatus.BAD_REQUEST)
+            .map { error -> FieldError(field = error.field, errorCode = error.code) }
+        return ResponseEntity(
+            ErrorResponse(
+                httpStatus = HttpStatus.BAD_REQUEST.value(),
+                exception = exception::class.simpleName,
+                fieldErrors = fieldErrors
+            ),
+            HttpStatus.BAD_REQUEST
+        )
     }
 
     @ExceptionHandler(ResponseStatusException::class)
-    fun handleResponseStatus(exception: ResponseStatusException): ResponseEntity<ErrorResponse> {
-        val errorResponse = ErrorResponse()
-        errorResponse.httpStatus = exception.statusCode.value()
-        errorResponse.exception = exception::class.simpleName
-        errorResponse.message = exception.message
-        return ResponseEntity(errorResponse, exception.statusCode)
-    }
+    fun handleResponseStatus(exception: ResponseStatusException): ResponseEntity<ErrorResponse> =
+        ResponseEntity(
+            ErrorResponse(
+                httpStatus = exception.statusCode.value(),
+                exception = exception::class.simpleName,
+                message = exception.message
+            ), exception.statusCode
+        )
+
 
     @ExceptionHandler(Throwable::class)
     @ApiResponse(
@@ -62,10 +62,12 @@ class RestExceptionHandler {
     )
     fun handleThrowable(exception: Throwable): ResponseEntity<ErrorResponse> {
         exception.printStackTrace()
-        val errorResponse = ErrorResponse()
-        errorResponse.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value()
-        errorResponse.exception = exception::class.simpleName
-        return ResponseEntity(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR)
+        return ResponseEntity(
+            ErrorResponse(
+                httpStatus = HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                exception = exception::class.simpleName
+            ), HttpStatus.INTERNAL_SERVER_ERROR
+        )
     }
 
 }

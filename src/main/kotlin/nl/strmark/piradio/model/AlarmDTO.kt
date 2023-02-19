@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull
 import jakarta.validation.constraints.Size
 import java.time.LocalTime
 
-
 class AlarmDTO {
 
     var id: Long? = null
@@ -38,7 +37,7 @@ class AlarmDTO {
     @NotNull
     var autoStopMinutes: Int? = null
 
-    var isActive: Boolean? = null
+    var active: Boolean? = null
 
     @NotNull
     var alarmWebradio: Long? = null

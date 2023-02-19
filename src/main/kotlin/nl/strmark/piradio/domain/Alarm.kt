@@ -11,7 +11,6 @@ import jakarta.persistence.ManyToOne
 import jakarta.persistence.SequenceGenerator
 import java.time.LocalTime
 
-
 @Entity
 class Alarm {
 
@@ -66,7 +65,7 @@ class Alarm {
     var autoStopMinutes: Int? = null
 
     @Column
-    var isActive: Boolean? = null
+    var active: Boolean? = null
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(

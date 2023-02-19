@@ -16,7 +16,6 @@
             <form th:action="${T(nl.strmark.piradio.util.WebUtils).getRequest().requestURI}" method="post">
                 <div th:replace="~{fragments/forms::inputRow(object='webRadio', field='name')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='webRadio', field='url')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='webRadio', field='isDefault', type='checkbox')}" />
                 <input type="submit" th:value="#{webRadio.add.headline}" class="btn btn-primary mt-4" />
             </form>
         </div>

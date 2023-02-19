@@ -24,7 +24,7 @@
                 <div th:replace="~{fragments/forms::inputRow(object='alarm', field='sunday', type='checkbox')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='alarm', field='startTime', inputClass='js-timepicker')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='alarm', field='autoStopMinutes', type='number')}" />
-                <div th:replace="~{fragments/forms::inputRow(object='alarm', field='isActive', type='checkbox')}" />
+                <div th:replace="~{fragments/forms::inputRow(object='alarm', field='active', type='checkbox')}" />
                 <div th:replace="~{fragments/forms::inputRow(object='alarm', field='alarmWebradio', type='select')}" />
                 <input type="submit" th:value="#{alarm.edit.headline}" class="btn btn-primary mt-4" />
             </form>

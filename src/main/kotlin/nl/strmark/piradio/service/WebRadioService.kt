@@ -9,7 +9,6 @@ import nl.strmark.piradio.util.WebUtils
 import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Service
 
-
 @Service
 class WebRadioService(
     private val webRadioRepository: WebRadioRepository
@@ -17,6 +16,13 @@ class WebRadioService(
 
     fun findAll(): List<WebRadioDTO> {
         val webRadios: List<WebRadio> = webRadioRepository.findAll(Sort.by("id"))
+        return webRadios.stream()
+            .map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
+            .toList()
+    }
+
+    fun findByIsDefault(isDefault: Boolean): List<WebRadioDTO> {
+        val webRadios: List<WebRadio> = webRadioRepository.findByIsDefault(true)
         return webRadios.stream()
             .map { webRadio -> mapToDTO(webRadio, WebRadioDTO()) }
             .toList()

@@ -16,8 +16,16 @@ class AlarmService(
     private val webRadioRepository: WebRadioRepository
 ) {
 
+
     fun findAll(): List<AlarmDTO> {
         val alarms: List<Alarm> = alarmRepository.findAll(Sort.by("id"))
+        return alarms.stream()
+            .map { alarm -> mapToDTO(alarm, AlarmDTO()) }
+            .toList()
+    }
+
+    fun findByActive(active: Boolean): List<AlarmDTO> {
+        val alarms: List<Alarm> = alarmRepository.findByActive(active)
         return alarms.stream()
             .map { alarm -> mapToDTO(alarm, AlarmDTO()) }
             .toList()
@@ -58,7 +66,7 @@ class AlarmService(
         alarmDTO.sunday = alarm.sunday
         alarmDTO.startTime = alarm.startTime
         alarmDTO.autoStopMinutes = alarm.autoStopMinutes
-        alarmDTO.isActive = alarm.isActive
+        alarmDTO.active = alarm.active
         alarmDTO.alarmWebradio = alarm.alarmWebradio?.id
         return alarmDTO
     }
@@ -74,7 +82,7 @@ class AlarmService(
         alarm.sunday = alarmDTO.sunday
         alarm.startTime = alarmDTO.startTime
         alarm.autoStopMinutes = alarmDTO.autoStopMinutes
-        alarm.isActive = alarmDTO.isActive
+        alarm.active = alarmDTO.active
         val alarmWebradio: WebRadio? = if (alarmDTO.alarmWebradio == null) null else
             webRadioRepository.findById(alarmDTO.alarmWebradio!!)
                 .orElseThrow { NotFoundException("alarmWebradio not found") }

@@ -2,7 +2,6 @@ package nl.strmark.piradio.model
 
 import jakarta.validation.constraints.Size
 
-
 class WebRadioDTO {
 
     var id: Long? = null

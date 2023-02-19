@@ -14,14 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
-
 @Controller
 @RequestMapping("/webRadios")
 class WebRadioController(
     private val webRadioService: WebRadioService
 ) {
     companion object {
-        private const val webRadioRedirect = "redirect:/webradios"
+        private const val webRadioRedirect = "redirect:/webRadios"
         private const val webRadioList = "webRadio/list"
         private const val webRadioAdd = "webRadio/add"
         private const val webRadioEdit = "webRadio/edit"

@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 import java.util.stream.Collectors
 
-
 @Controller
 @RequestMapping("/alarms")
 class AlarmController(
