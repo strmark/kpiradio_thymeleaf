@@ -1,7 +1,6 @@
 package nl.strmark.piradio.controller
 
 import jakarta.validation.Valid
-import nl.strmark.piradio.domain.WebRadio
 import nl.strmark.piradio.model.AlarmDTO
 import nl.strmark.piradio.repos.WebRadioRepository
 import nl.strmark.piradio.service.AlarmService
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
-import java.util.stream.Collectors
 
 @Controller
 @RequestMapping("/alarms")
@@ -32,13 +30,8 @@ class AlarmController(
     }
 
     @ModelAttribute
-    fun prepareContext(model: Model) {
-        model.addAttribute(
-            "alarmWebradioValues", webRadioRepository.findAll(Sort.by("id"))
-                .stream()
-                .collect(Collectors.toMap(WebRadio::id, WebRadio::name))
-        )
-    }
+    fun prepareContext(model: Model) =
+        model.addAttribute("alarmWebradioValues", webRadioRepository.findAll(Sort.by("id")).associate { it.id to it.name })
 
     @GetMapping
     fun list(model: Model): String {
