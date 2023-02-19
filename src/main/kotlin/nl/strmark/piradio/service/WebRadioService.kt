@@ -37,8 +37,7 @@ class WebRadioService(
     }
 
     fun update(id: Long, webRadioDTO: WebRadioDTO) {
-        val webRadio: WebRadio = webRadioRepository.findById(id)
-            .orElseThrow { NotFoundException() }
+        val webRadio: WebRadio = webRadioRepository.findById(id).orElseThrow { NotFoundException() }
         mapToEntity(webRadioDTO, webRadio)
         webRadioRepository.save(webRadio)
     }
@@ -66,10 +65,13 @@ class WebRadioService(
     fun getReferencedWarning(id: Long): String? {
         val webRadio: WebRadio = webRadioRepository.findById(id).orElseThrow { NotFoundException() }
         return webRadio.alarmWebradioAlarms?.let { alarms ->
-            WebUtils.getMessage(
-                "webRadio.alarm.manyToOne.referenced",
-                alarms.iterator().next().id
-            )
+            when {
+                alarms.isEmpty() -> null
+                else -> WebUtils.getMessage(
+                    "webRadio.alarm.manyToOne.referenced",
+                    alarms.iterator().next().id
+                )
+            }
         }
     }
 }

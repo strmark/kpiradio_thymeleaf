@@ -25,6 +25,7 @@
                             <th th:text="#{alarm.short.friday.label}" scope="col" />
                             <th th:text="#{alarm.short.saturday.label}" scope="col" />
                             <th th:text="#{alarm.short.sunday.label}" scope="col" />
+                            <th th:text="#{alarm.startTime.label}" scope="col" />
                         </tr>
                     </thead>
                     <tbody>
@@ -37,6 +38,7 @@
                         <td th:class="${alarm.friday} ? 'alarm-on' : 'alarm-off'"></td>
                         <td th:class="${alarm.saturday} ? 'alarm-on' : 'alarm-off'"></td>
                         <td th:class="${alarm.sunday} ? 'alarm-on' : 'alarm-off'"></td>
+                        <td th:text="${alarm.startTime}"></td>
                         <td>
                             <div class="float-end text-nowrap">
                                 <a th:href="@{/alarms/edit/{id}(id=${alarm.id})}" th:title="#{alarm.list.edit}"

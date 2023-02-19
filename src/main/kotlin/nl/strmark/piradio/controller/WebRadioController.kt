@@ -40,16 +40,16 @@ class WebRadioController(
         @ModelAttribute("webRadio") @Valid webRadioDTO: WebRadioDTO,
         bindingResult: BindingResult,
         redirectAttributes: RedirectAttributes
-    ): String {
-        if (bindingResult.hasErrors()) {
-            return webRadioAdd
+    ): String = when {
+        bindingResult.hasErrors() -> webRadioAdd
+        else -> {
+            webRadioService.create(webRadioDTO)
+            redirectAttributes.addFlashAttribute(
+                WebUtils.MSG_SUCCESS,
+                WebUtils.getMessage("webRadio.create.success")
+            )
+            webRadioRedirect
         }
-        webRadioService.create(webRadioDTO)
-        redirectAttributes.addFlashAttribute(
-            WebUtils.MSG_SUCCESS,
-            WebUtils.getMessage("webRadio.create.success")
-        )
-        return webRadioRedirect
     }
 
     @GetMapping("/edit/{id}")
@@ -64,29 +64,30 @@ class WebRadioController(
         @ModelAttribute("webRadio") @Valid webRadioDTO: WebRadioDTO,
         bindingResult: BindingResult,
         redirectAttributes: RedirectAttributes
-    ): String {
-        if (bindingResult.hasErrors()) {
-            return webRadioEdit
+    ): String = when {
+        bindingResult.hasErrors() -> webRadioEdit
+        else -> {
+            webRadioService.update(id, webRadioDTO)
+            redirectAttributes.addFlashAttribute(
+                WebUtils.MSG_SUCCESS,
+                WebUtils.getMessage("webRadio.update.success")
+            )
+            webRadioRedirect
         }
-        webRadioService.update(id, webRadioDTO)
-        redirectAttributes.addFlashAttribute(
-            WebUtils.MSG_SUCCESS,
-            WebUtils.getMessage("webRadio.update.success")
-        )
-        return webRadioRedirect
     }
 
     @PostMapping("/delete/{id}")
     fun delete(@PathVariable id: Long, redirectAttributes: RedirectAttributes): String {
         val referencedWarning: String? = webRadioService.getReferencedWarning(id)
-        if (referencedWarning != null) {
-            redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning)
-        } else {
-            webRadioService.delete(id)
-            redirectAttributes.addFlashAttribute(
-                WebUtils.MSG_INFO,
-                WebUtils.getMessage("webRadio.delete.success")
-            )
+        when {
+            referencedWarning != null -> redirectAttributes.addFlashAttribute(WebUtils.MSG_ERROR, referencedWarning)
+            else -> {
+                webRadioService.delete(id)
+                redirectAttributes.addFlashAttribute(
+                    WebUtils.MSG_INFO,
+                    WebUtils.getMessage("webRadio.delete.success")
+                )
+            }
         }
         return webRadioRedirect
     }
