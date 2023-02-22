@@ -8,8 +8,9 @@ plugins {
     id("io.spring.dependency-management") version "1.1.0"
     id("com.github.node-gradle.node") version "3.5.1"
     id("org.flywaydb.flyway") version "9.15.0"
-    id("com.github.ben-manes.versions") version "0.45.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
     id("org.sonarqube") version "4.0.0.2929"
+    id("org.owasp.dependencycheck") version "8.1.0"
     kotlin("jvm") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion
     kotlin("plugin.allopen") version kotlinVersion
@@ -93,3 +94,9 @@ sonarqube {
         property("sonar.projectKey", "strmark_kpiradio_thymeleaf")
     }
 }
+
+dependencyCheck {
+    analyzers.assemblyEnabled = false
+}
+
+apply(plugin = "org.owasp.dependencycheck")
