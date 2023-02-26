@@ -1,13 +1,15 @@
+import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
+import java.util.Locale
 
 plugins {
     val kotlinVersion = "1.8.10"
     `version-catalog`
-    id("org.springframework.boot") version "3.0.2"
+    id("org.springframework.boot") version "3.0.3"
     id("io.spring.dependency-management") version "1.1.0"
     id("com.github.node-gradle.node") version "3.5.1"
-    id("org.flywaydb.flyway") version "9.15.0"
+    id("org.flywaydb.flyway") version "9.15.1"
     id("com.github.ben-manes.versions") version "0.46.0"
     id("org.sonarqube") version "4.0.0.2929"
     id("org.owasp.dependencycheck") version "8.1.0"
@@ -87,6 +89,18 @@ tasks.withType<Wrapper> {
     gradleVersion = "8.0.1"
 }
 
+tasks.withType<DependencyUpdatesTask> {
+    resolutionStrategy {
+        componentSelection {
+            all {
+                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
+                    reject("Release candidate")
+                }
+            }
+        }
+    }
+}
+
 sonarqube {
     properties {
         property("sonar.host.url", "https://sonarcloud.io")
@@ -97,6 +111,13 @@ sonarqube {
 
 dependencyCheck {
     analyzers.assemblyEnabled = false
+}
+
+fun isNonStable(version: String): Boolean {
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase(Locale.getDefault()).contains(it) }
+    val regex = "^[0-9,.v-]+(-r)?$".toRegex()
+    val isStable = stableKeyword || regex.matches(version)
+    return isStable.not()
 }
 
 apply(plugin = "org.owasp.dependencycheck")

@@ -1,61 +1,61 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-        layout:decorate="~{layout}">
-    <head>
-        <title th:text="#{alarm.list.headline}" />
-    </head>
-    <body>
-        <div layout:fragment="content">
-            <div class="d-flex flex-wrap mb-4">
-                <h1 th:text="#{alarm.list.headline}" class="flex-grow-1" />
-                <div>
-                    <a th:href="@{/alarms/add}" th:text="#{alarm.list.createNew}" class="btn btn-primary ms-2" />
-                </div>
-            </div>
-            <div th:if="${alarms.empty}" th:text="#{alarm.list.empty}" />
-            <div th:if="${!alarms.empty}" class="table-responsive">
-                <table class="table table-striped table-hover align-middle">
-                    <thead>
-                        <tr>
-                            <th th:text="#{alarm.name.label}" scope="col" />
-                            <th th:text="#{alarm.short.monday.label}" scope="col" />
-                            <th th:text="#{alarm.short.tuesday.label}" scope="col" />
-                            <th th:text="#{alarm.short.wednesday.label}" scope="col" />
-                            <th th:text="#{alarm.short.thursday.label}" scope="col" />
-                            <th th:text="#{alarm.short.friday.label}" scope="col" />
-                            <th th:text="#{alarm.short.saturday.label}" scope="col" />
-                            <th th:text="#{alarm.short.sunday.label}" scope="col" />
-                            <th th:text="#{alarm.startTime.label}" scope="col" />
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="alarm : ${alarms}">
-                        <td th:text="${alarm.name}"/>
-                        <td th:class="${alarm.monday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.tuesday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.wednesday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.thursday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.friday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.saturday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:class="${alarm.sunday} ? 'alarm-on' : 'alarm-off'"></td>
-                        <td th:text="${alarm.startTime}"></td>
-                        <td>
-                            <div class="float-end text-nowrap">
-                                <a th:href="@{/alarms/edit/{id}(id=${alarm.id})}" th:title="#{alarm.list.edit}"
-                                   class="btn btn-sm btn-info"> <i class="fa-solid fa-pen-to-square"></i> </a>
-                                <form th:action="@{/alarms/delete/{id}(id=${alarm.id})}"
-                                      th:data-confirm-message="#{delete.confirm}" method="post"
-                                      class="js-submit-confirm d-inline">
-                                    <button type="submit" th:title="#{alarm.list.delete}" class="btn btn-sm btn-danger"><i
-                                            class="fa-solid fa-trash"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <title th:text="#{alarm.list.headline}"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="d-flex flex-wrap mb-4">
+        <h1 th:text="#{alarm.list.headline}" class="flex-grow-1"/>
+        <div>
+            <a th:href="@{/alarms/add}" th:text="#{alarm.list.createNew}" class="btn btn-primary ms-2"/>
         </div>
-    </body>
+    </div>
+    <div th:if="${alarms.empty}" th:text="#{alarm.list.empty}"/>
+    <div th:if="${!alarms.empty}" class="table-responsive">
+        <table class="table table-striped table-hover align-middle">
+            <thead>
+            <tr>
+                <th th:text="#{alarm.name.label}" scope="col"/>
+                <th th:text="#{alarm.short.monday.label}" scope="col"/>
+                <th th:text="#{alarm.short.tuesday.label}" scope="col"/>
+                <th th:text="#{alarm.short.wednesday.label}" scope="col"/>
+                <th th:text="#{alarm.short.thursday.label}" scope="col"/>
+                <th th:text="#{alarm.short.friday.label}" scope="col"/>
+                <th th:text="#{alarm.short.saturday.label}" scope="col"/>
+                <th th:text="#{alarm.short.sunday.label}" scope="col"/>
+                <th th:text="#{alarm.startTime.label}" scope="col"/>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="alarm : ${alarms}">
+                <td th:text="${alarm.name}"/>
+                <td th:class="${alarm.monday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.tuesday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.wednesday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.thursday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.friday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.saturday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:class="${alarm.sunday} ? 'alarm-on' : 'alarm-off'"></td>
+                <td th:text="${alarm.startTime}"></td>
+                <td>
+                    <div class="float-end text-nowrap">
+                        <a th:href="@{/alarms/edit/{id}(id=${alarm.id})}" th:title="#{alarm.list.edit}"
+                           class="btn btn-sm btn-info"> <i class="fa-solid fa-pen-to-square"></i> </a>
+                        <form th:action="@{/alarms/delete/{id}(id=${alarm.id})}"
+                              th:data-confirm-message="#{delete.confirm}" method="post"
+                              class="js-submit-confirm d-inline">
+                            <button type="submit" th:title="#{alarm.list.delete}" class="btn btn-sm btn-danger"><i
+                                    class="fa-solid fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
 </html>
