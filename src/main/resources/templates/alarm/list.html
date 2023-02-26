@@ -15,6 +15,7 @@
     <div th:if="${alarms.empty}" th:text="#{alarm.list.empty}"/>
     <div th:if="${!alarms.empty}" class="table-responsive">
         <table class="table table-striped table-hover align-middle">
+            <caption>Alarms</caption>
             <thead>
             <tr>
                 <th th:text="#{alarm.name.label}" scope="col"/>
