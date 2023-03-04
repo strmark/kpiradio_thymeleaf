@@ -14,7 +14,6 @@ class AlarmService(
     private val webRadioRepository: WebRadioRepository
 ) {
 
-
     fun findAll(): List<AlarmDTO> {
         val alarms: List<Alarm> = alarmRepository.findAll(Sort.by("id"))
         return alarms.map { alarm -> mapToDTO(alarm, AlarmDTO()) }
@@ -77,11 +76,10 @@ class AlarmService(
         alarm.startTime = alarmDTO.startTime
         alarm.autoStopMinutes = alarmDTO.autoStopMinutes
         alarm.active = alarmDTO.active
-        alarm.alarmWebradio = alarmDTO.alarmWebradio?.let{ webradio ->
+        alarm.alarmWebradio = alarmDTO.alarmWebradio?.let { webradio ->
             webRadioRepository.findById(webradio)
                 .orElseThrow { NotFoundException("alarmWebradio not found") }
         }
         return alarm
     }
-
 }

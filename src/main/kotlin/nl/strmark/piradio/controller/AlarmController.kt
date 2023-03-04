@@ -31,7 +31,9 @@ class AlarmController(
 
     @ModelAttribute
     fun prepareContext(model: Model) =
-        model.addAttribute("alarmWebradioValues", webRadioRepository.findAll(Sort.by("id")).associate { it.id to it.name })
+        model.addAttribute(
+            "alarmWebradioValues",
+            webRadioRepository.findAll(Sort.by("id")).associate { it.id to it.name })
 
     @GetMapping
     fun list(model: Model): String {
@@ -92,5 +94,4 @@ class AlarmController(
         )
         return alarmsRedirect
     }
-
 }

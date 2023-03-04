@@ -7,6 +7,8 @@ import nl.strmark.piradio.service.AlarmService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.noContent
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -26,29 +28,30 @@ class AlarmResource(
 ) {
 
     @GetMapping
-    fun getAllAlarms(): ResponseEntity<List<AlarmDTO>> = ResponseEntity.ok(alarmService.findAll())
+    fun getAllAlarms(): ResponseEntity<List<AlarmDTO>> = ok(alarmService.findAll())
 
     @GetMapping("/{id}")
     fun getAlarm(@PathVariable(name = "id") id: Long): ResponseEntity<AlarmDTO> =
-        ResponseEntity.ok(alarmService.get(id))
+        ok(alarmService.get(id))
 
     @PostMapping
     @ApiResponse(responseCode = "201")
-    fun createAlarm(@RequestBody @Valid alarmDTO: AlarmDTO): ResponseEntity<Long> =
+    fun createAlarm(
+        @RequestBody @Valid
+        alarmDTO: AlarmDTO
+    ): ResponseEntity<Long> =
         ResponseEntity(alarmService.create(alarmDTO), HttpStatus.CREATED)
 
     @PutMapping("/{id}")
-    fun updateAlarm(@PathVariable(name = "id") id: Long, @RequestBody @Valid alarmDTO: AlarmDTO):
-            ResponseEntity<Void> {
+    fun updateAlarm(@PathVariable(name = "id") id: Long, @RequestBody @Valid alarmDTO: AlarmDTO): ResponseEntity<Void> {
         alarmService.update(id, alarmDTO)
-        return ResponseEntity.ok().build()
+        return ok().build()
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
     fun deleteAlarm(@PathVariable(name = "id") id: Long): ResponseEntity<Void> {
         alarmService.delete(id)
-        return ResponseEntity.noContent().build()
+        return noContent().build()
     }
-
 }

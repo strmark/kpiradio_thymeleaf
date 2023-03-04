@@ -41,5 +41,4 @@ class AlarmDTO {
 
     @NotNull
     var alarmWebradio: Long? = null
-
 }

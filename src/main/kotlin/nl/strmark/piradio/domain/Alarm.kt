@@ -2,9 +2,9 @@ package nl.strmark.piradio.domain
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
-import jakarta.persistence.FetchType
+import jakarta.persistence.FetchType.LAZY
 import jakarta.persistence.GeneratedValue
-import jakarta.persistence.GenerationType
+import jakarta.persistence.GenerationType.SEQUENCE
 import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
@@ -26,7 +26,7 @@ class Alarm {
         initialValue = 10000
     )
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
+        strategy = SEQUENCE,
         generator = "primary_sequence"
     )
     var id: Long? = null
@@ -67,11 +67,10 @@ class Alarm {
     @Column
     var active: Boolean? = null
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = LAZY)
     @JoinColumn(
         name = "alarm_webradio_id",
         nullable = false
     )
     var alarmWebradio: WebRadio? = null
-
 }

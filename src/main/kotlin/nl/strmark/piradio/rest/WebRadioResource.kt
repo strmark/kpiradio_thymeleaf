@@ -7,6 +7,8 @@ import nl.strmark.piradio.service.WebRadioService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.http.ResponseEntity.noContent
+import org.springframework.http.ResponseEntity.ok
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -27,11 +29,11 @@ class WebRadioResource(
 
     @GetMapping
     fun getAllWebRadios(): ResponseEntity<List<WebRadioDTO>> =
-        ResponseEntity.ok(webRadioService.findAll())
+        ok(webRadioService.findAll())
 
     @GetMapping("/{id}")
     fun getWebRadio(@PathVariable(name = "id") id: Long): ResponseEntity<WebRadioDTO> =
-        ResponseEntity.ok(webRadioService.get(id))
+        ok(webRadioService.get(id))
 
     @PostMapping
     @ApiResponse(responseCode = "201")
@@ -40,18 +42,18 @@ class WebRadioResource(
 
     @PutMapping("/{id}")
     fun updateWebRadio(
-        @PathVariable(name = "id") id: Long, @RequestBody @Valid
+        @PathVariable(name = "id") id: Long,
+        @RequestBody @Valid
         webRadioDTO: WebRadioDTO
     ): ResponseEntity<Void> {
         webRadioService.update(id, webRadioDTO)
-        return ResponseEntity.ok().build()
+        return ok().build()
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
     fun deleteWebRadio(@PathVariable(name = "id") id: Long): ResponseEntity<Void> {
         webRadioService.delete(id)
-        return ResponseEntity.noContent().build()
+        return noContent().build()
     }
-
 }

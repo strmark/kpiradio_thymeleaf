@@ -13,5 +13,4 @@ class WebRadioDTO {
     var url: String? = null
 
     var isDefault: Boolean? = null
-
 }

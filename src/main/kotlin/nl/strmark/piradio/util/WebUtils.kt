@@ -35,7 +35,7 @@ class WebUtils(
 
         @JvmStatic
         fun getRequest(): HttpServletRequest = (RequestContextHolder.getRequestAttributes() as
-                ServletRequestAttributes).request
+            ServletRequestAttributes).request
 
         @JvmStatic
         fun getMessage(code: String, vararg args: Any?): String? = messageSource.getMessage(
@@ -47,7 +47,5 @@ class WebUtils(
         fun isRequiredField(dto: Any, fieldName: String): Boolean =
             dto::class.memberProperties.first { it.name == fieldName }
                 .javaField!!.getAnnotation(NotNull::class.java) != null
-
     }
-
 }
