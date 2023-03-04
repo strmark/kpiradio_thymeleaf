@@ -1,6 +1,6 @@
 # Pi Radio
 
-This is Pi Radio written in Kotlin and Thymeleaf. Initially jumpstarted with Bootify.
+This project is still under construction. This is Pi Radio written in Kotlin and Thymeleaf. Initially jumpstarted with Bootify.
 
 ## Installation
 
