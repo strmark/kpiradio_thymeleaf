@@ -6,9 +6,9 @@ import java.util.Locale
 plugins {
     val kotlinVersion = "1.8.20"
     `version-catalog`
-    id("org.springframework.boot") version "3.0.5"
+    id("org.springframework.boot") version "3.0.6"
     id("io.spring.dependency-management") version "1.1.0"
-    id("com.github.node-gradle.node") version "3.5.1"
+    id("com.github.node-gradle.node") version "4.0.0"
     id("com.github.ben-manes.versions") version "0.46.0"
     id("org.sonarqube") version "4.0.0.2929"
     id("org.owasp.dependencycheck") version "8.2.1"
@@ -34,6 +34,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:${versions.springboot.get()}")
     runtimeOnly("com.h2database:h2:${versions.h2db.get()}")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springboot.get()}")
+    implementation("org.yaml:snakeyaml:${versions.snakeyaml.get()}")
     implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleaf.get()}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.swagger.get()}")
     implementation("org.webjars:font-awesome:${versions.font.get()}")
@@ -85,7 +86,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "8.0.2"
+    gradleVersion = "8.1.1"
 }
 
 tasks.withType<DependencyUpdatesTask> {
