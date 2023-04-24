@@ -1,7 +1,7 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
-import java.util.Locale
+import java.util.*
 
 plugins {
     val kotlinVersion = "1.8.20"
@@ -17,12 +17,16 @@ plugins {
     kotlin("plugin.allopen") version kotlinVersion
 }
 
-group = "nl.strmark"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
+allprojects {
+    group = "nl.strmark"
+    version = "0.0.1-SNAPSHOT"
+    java.sourceCompatibility = JavaVersion.VERSION_17
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenCentral()
+    }
+
+    apply(plugin = "org.owasp.dependencycheck")
 }
 
 dependencies {
@@ -90,14 +94,8 @@ tasks.withType<Wrapper> {
 }
 
 tasks.withType<DependencyUpdatesTask> {
-    resolutionStrategy {
-        componentSelection {
-            all {
-                if (isNonStable(candidate.version) && !isNonStable(currentVersion)) {
-                    reject("Release candidate")
-                }
-            }
-        }
+    rejectVersionIf {
+        isNonStable(candidate.version) && !isNonStable(currentVersion)
     }
 }
 
@@ -119,5 +117,3 @@ fun isNonStable(version: String): Boolean {
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
 }
-
-apply(plugin = "org.owasp.dependencycheck")
