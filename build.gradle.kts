@@ -1,20 +1,19 @@
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
-import java.util.*
 
 plugins {
-    val kotlinVersion = "1.8.20"
-    `version-catalog`
-    id("org.springframework.boot") version "3.0.6"
-    id("io.spring.dependency-management") version "1.1.0"
-    id("com.github.node-gradle.node") version "4.0.0"
-    id("com.github.ben-manes.versions") version "0.46.0"
-    id("org.sonarqube") version "4.0.0.2929"
-    id("org.owasp.dependencycheck") version "8.2.1"
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
+    kpiLibs.versions.let { versions ->
+        id("org.springframework.boot") version versions.springboot.get()
+        id("io.spring.dependency-management") version versions.dependency.get()
+        id("com.github.node-gradle.node") version versions.node.get()
+        id("com.github.ben-manes.versions") version versions.manes.get()
+        id("org.sonarqube") version versions.sonarqube.get()
+        id("org.owasp.dependencycheck") version versions.owasp.get()
+        kotlin("jvm") version versions.kotlinversion.get()
+        kotlin("plugin.spring") version versions.kotlinversion.get()
+        kotlin("plugin.allopen") version versions.kotlinversion.get()
+    }
 }
 
 allprojects {
@@ -26,25 +25,24 @@ allprojects {
         mavenCentral()
     }
 
-    apply(plugin = "org.owasp.dependencycheck")
-}
-
-dependencies {
-    val versions = kpiLibs.versions
-    implementation("org.springframework.boot:spring-boot-starter-web:${versions.springboot.get()}")
-    implementation("org.springframework.boot:spring-boot-starter-validation:${versions.springboot.get()}")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${versions.kotlinversion.get()}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlinversion.get()}")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa:${versions.springboot.get()}")
-    runtimeOnly("com.h2database:h2:${versions.h2db.get()}")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springboot.get()}")
-    implementation("org.yaml:snakeyaml:${versions.snakeyaml.get()}")
-    implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleaf.get()}")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.swagger.get()}")
-    implementation("org.webjars:font-awesome:${versions.font.get()}")
-    implementation("io.github.microutils:kotlin-logging:${versions.klogging.get()}")
-    developmentOnly("org.springframework.boot:spring-boot-devtools:${versions.springboot.get()}")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:${versions.springboot.get()}")
+    dependencies {
+        kpiLibs.versions.let { versions ->
+            implementation("org.springframework.boot:spring-boot-starter-web:${versions.springboot.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-validation:${versions.springboot.get()}")
+            implementation("org.jetbrains.kotlin:kotlin-reflect:${versions.kotlinversion.get()}")
+            implementation("org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlinversion.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-data-jpa:${versions.springboot.get()}")
+            runtimeOnly("com.h2database:h2:${versions.h2db.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springboot.get()}")
+            implementation("org.yaml:snakeyaml:${versions.snakeyaml.get()}")
+            implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleaf.get()}")
+            implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.swagger.get()}")
+            implementation("org.webjars:font-awesome:${versions.font.get()}")
+            implementation("io.github.microutils:kotlin-logging:${versions.klogging.get()}")
+            developmentOnly("org.springframework.boot:spring-boot-devtools:${versions.springboot.get()}")
+            testImplementation("org.springframework.boot:spring-boot-starter-test:${versions.springboot.get()}")
+        }
+    }
 }
 
 allOpen {
@@ -112,7 +110,7 @@ dependencyCheck {
 }
 
 fun isNonStable(version: String): Boolean {
-    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase(Locale.getDefault()).contains(it) }
+    val stableKeyword = listOf("RELEASE", "FINAL", "GA").any { version.uppercase().contains(it) }
     val regex = "^[0-9,.v-]+(-r)?$".toRegex()
     val isStable = stableKeyword || regex.matches(version)
     return isStable.not()
