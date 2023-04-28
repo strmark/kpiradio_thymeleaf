@@ -1,6 +1,6 @@
 [versions]
 dependency = "1.1.0"
-flyway = "9.16.1"
+flyway = "9.17.0"
 font = "6.4.0"
 h2db = "2.1.214"
 klogging = "3.0.5"
