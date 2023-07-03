@@ -9,18 +9,14 @@ import org.springframework.data.domain.Sort
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.ModelAttribute
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.servlet.mvc.support.RedirectAttributes
 
 @Controller
 @RequestMapping("/alarms")
 class AlarmController(
     private val alarmService: AlarmService,
-    private val webRadioRepository: WebRadioRepository
+    private val webRadioRepository: WebRadioRepository,
 ) {
     companion object {
         private const val alarmsRedirect = "redirect:/alarms"
@@ -33,7 +29,8 @@ class AlarmController(
     fun prepareContext(model: Model) =
         model.addAttribute(
             "alarmWebradioValues",
-            webRadioRepository.findAll(Sort.by("id")).associate { it.id to it.name })
+            webRadioRepository.findAll(Sort.by("id")).associate { it.id to it.name },
+        )
 
     @GetMapping
     fun list(model: Model): String {
@@ -48,7 +45,7 @@ class AlarmController(
     fun add(
         @ModelAttribute("alarm") @Valid alarmDTO: AlarmDTO,
         bindingResult: BindingResult,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         if (bindingResult.hasErrors()) {
             return alarmsAdd
@@ -56,7 +53,7 @@ class AlarmController(
         alarmService.create(alarmDTO)
         redirectAttributes.addFlashAttribute(
             WebUtils.MSG_SUCCESS,
-            WebUtils.getMessage("alarm.create.success")
+            WebUtils.getMessage("alarm.create.success"),
         )
         return alarmsRedirect
     }
@@ -72,7 +69,7 @@ class AlarmController(
         @PathVariable id: Long,
         @ModelAttribute("alarm") @Valid alarmDTO: AlarmDTO,
         bindingResult: BindingResult,
-        redirectAttributes: RedirectAttributes
+        redirectAttributes: RedirectAttributes,
     ): String {
         if (bindingResult.hasErrors()) {
             return "alarm/edit"
@@ -80,7 +77,7 @@ class AlarmController(
         alarmService.update(id, alarmDTO)
         redirectAttributes.addFlashAttribute(
             WebUtils.MSG_SUCCESS,
-            WebUtils.getMessage("alarm.update.success")
+            WebUtils.getMessage("alarm.update.success"),
         )
         return alarmsRedirect
     }
@@ -90,7 +87,7 @@ class AlarmController(
         alarmService.delete(id)
         redirectAttributes.addFlashAttribute(
             WebUtils.MSG_INFO,
-            WebUtils.getMessage("alarm.delete.success")
+            WebUtils.getMessage("alarm.delete.success"),
         )
         return alarmsRedirect
     }

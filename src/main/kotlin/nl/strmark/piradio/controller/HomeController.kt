@@ -12,7 +12,7 @@ class HomeController(
     private val webRadioService: WebRadioService
 ) {
 
-    @GetMapping("/")
+    @GetMapping("/index")
     fun index(model: Model): String {
         model.addAttribute("alarms", alarmService.findByActive(true))
         model.addAttribute("webRadios", webRadioService.findByIsDefault(true))

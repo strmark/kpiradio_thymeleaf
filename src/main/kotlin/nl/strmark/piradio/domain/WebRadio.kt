@@ -8,7 +8,6 @@ import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.SequenceGenerator
 
-
 @Entity
 class WebRadio {
 
