@@ -3,16 +3,16 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.springframework.boot.gradle.tasks.run.BootRun
 
 plugins {
-    kpiLibs.versions.let { versions ->
-        id("org.springframework.boot") version versions.springboot.get()
-        id("io.spring.dependency-management") version versions.dependency.get()
-        id("com.github.node-gradle.node") version versions.node.get()
-        id("com.github.ben-manes.versions") version versions.manes.get()
-        id("org.sonarqube") version versions.sonarqube.get()
-        id("org.owasp.dependencycheck") version versions.owasp.get()
-        kotlin("jvm") version versions.kotlinversion.get()
-        kotlin("plugin.spring") version versions.kotlinversion.get()
-        kotlin("plugin.allopen") version versions.kotlinversion.get()
+    with(kpiLibs.versions) {
+        id("org.springframework.boot") version springboot
+        id("io.spring.dependency-management") version dependency
+        id("com.github.node-gradle.node") version node
+        id("com.github.ben-manes.versions") version manes
+        id("org.sonarqube") version sonarqube
+        id("org.owasp.dependencycheck") version owasp
+        kotlin("jvm") version kotlinversion
+        kotlin("plugin.spring") version kotlinversion
+        kotlin("plugin.allopen") version kotlinversion
     }
 }
 
@@ -26,21 +26,21 @@ allprojects {
     }
 
     dependencies {
-        kpiLibs.versions.let { versions ->
-            implementation("org.springframework.boot:spring-boot-starter-web:${versions.springboot.get()}")
-            implementation("org.springframework.boot:spring-boot-starter-validation:${versions.springboot.get()}")
-            implementation("org.jetbrains.kotlin:kotlin-reflect:${versions.kotlinversion.get()}")
-            implementation("org.jetbrains.kotlin:kotlin-stdlib:${versions.kotlinversion.get()}")
-            implementation("org.springframework.boot:spring-boot-starter-data-jpa:${versions.springboot.get()}")
-            runtimeOnly("com.h2database:h2:${versions.h2db.get()}")
-            implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${versions.springboot.get()}")
-            implementation("org.yaml:snakeyaml:${versions.snakeyaml.get()}")
-            implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${versions.thymeleaf.get()}")
-            implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${versions.swagger.get()}")
-            implementation("org.webjars:font-awesome:${versions.font.get()}")
-            implementation("io.github.microutils:kotlin-logging:${versions.klogging.get()}")
-            developmentOnly("org.springframework.boot:spring-boot-devtools:${versions.springboot.get()}")
-            testImplementation("org.springframework.boot:spring-boot-starter-test:${versions.springboot.get()}")
+        with(kpiLibs.versions) {
+            implementation("org.springframework.boot:spring-boot-starter-web:${springboot.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-validation:${springboot.get()}")
+            implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinversion.get()}")
+            implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinversion.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springboot.get()}")
+            runtimeOnly("com.h2database:h2:${h2db.get()}")
+            implementation("org.springframework.boot:spring-boot-starter-thymeleaf:${springboot.get()}")
+            implementation("org.yaml:snakeyaml:${snakeyaml.get()}")
+            implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${thymeleaf.get()}")
+            implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger.get()}")
+            implementation("org.webjars:font-awesome:${font.get()}")
+            implementation("io.github.microutils:kotlin-logging:${klogging.get()}")
+            developmentOnly("org.springframework.boot:spring-boot-devtools:${springboot.get()}")
+            testImplementation("org.springframework.boot:spring-boot-starter-test:${springboot.get()}")
         }
     }
 }
@@ -53,7 +53,7 @@ allOpen {
 
 node {
     download.set(true)
-    version.set("20.3.1")
+    version.set("18.12.0")
 }
 
 val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRunBuild") {
@@ -65,7 +65,7 @@ val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRu
     inputs.files(fileTree("src/main/resources"))
     inputs.file("package.json")
     inputs.file("webpack.config.js")
-    outputs.dir("$buildDir/resources/main/static")
+    outputs.dir("build/resources/main/static")
 }
 
 tasks.processResources {
@@ -88,7 +88,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "8.2.1"
+    gradleVersion = "8.3"
 }
 
 tasks.withType<DependencyUpdatesTask> {
