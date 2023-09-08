@@ -15,7 +15,7 @@ class LocalDevConfig(
 
     init {
         var sourceRoot: File = ClassPathResource("application.yml").file.parentFile
-        while (sourceRoot.listFiles { _, name -> name.equals("gradlew") }.size != 1) {
+        while ((sourceRoot.listFiles { _, name -> name == ("gradlew") }?.size ?: 1) != 1) {
             sourceRoot = sourceRoot.parentFile
         }
         val fileTemplateResolver = FileTemplateResolver()

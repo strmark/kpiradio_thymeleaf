@@ -45,14 +45,14 @@ class WebRadioResource(
         @PathVariable(name = "id") id: Long,
         @RequestBody @Valid
         webRadioDTO: WebRadioDTO
-    ): ResponseEntity<Void> {
+    ): ResponseEntity<Unit> {
         webRadioService.update(id, webRadioDTO)
         return ok().build()
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    fun deleteWebRadio(@PathVariable(name = "id") id: Long): ResponseEntity<Void> {
+    fun deleteWebRadio(@PathVariable(name = "id") id: Long): ResponseEntity<Unit> {
         webRadioService.delete(id)
         return noContent().build()
     }

@@ -43,14 +43,14 @@ class AlarmResource(
         ResponseEntity(alarmService.create(alarmDTO), HttpStatus.CREATED)
 
     @PutMapping("/{id}")
-    fun updateAlarm(@PathVariable(name = "id") id: Long, @RequestBody @Valid alarmDTO: AlarmDTO): ResponseEntity<Void> {
+    fun updateAlarm(@PathVariable(name = "id") id: Long, @RequestBody @Valid alarmDTO: AlarmDTO): ResponseEntity<Unit> {
         alarmService.update(id, alarmDTO)
         return ok().build()
     }
 
     @DeleteMapping("/{id}")
     @ApiResponse(responseCode = "204")
-    fun deleteAlarm(@PathVariable(name = "id") id: Long): ResponseEntity<Void> {
+    fun deleteAlarm(@PathVariable(name = "id") id: Long): ResponseEntity<Unit> {
         alarmService.delete(id)
         return noContent().build()
     }
