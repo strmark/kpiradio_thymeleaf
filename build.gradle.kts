@@ -19,7 +19,7 @@ plugins {
 allprojects {
     group = "nl.strmark"
     version = "0.0.1-SNAPSHOT"
-    java.sourceCompatibility = JavaVersion.VERSION_17
+    java.sourceCompatibility = JavaVersion.VERSION_21
 
     repositories {
         mavenCentral()
@@ -53,7 +53,7 @@ allOpen {
 
 node {
     download.set(true)
-    version.set("18.12.0")
+    version.set("18.18.2")
 }
 
 val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRunBuild") {
@@ -79,7 +79,7 @@ tasks.getByName<BootRun>("bootRun") {
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+        jvmTarget = "21"
     }
 }
 
