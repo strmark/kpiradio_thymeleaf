@@ -27,6 +27,7 @@ allprojects {
 
     dependencies {
         with(kpiLibs.versions) {
+            implementation("io.github.oshai:kotlin-logging-jvm:${klogging.get()}")
             implementation("org.springframework.boot:spring-boot-starter-web:${springboot.get()}")
             implementation("org.springframework.boot:spring-boot-starter-validation:${springboot.get()}")
             implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinversion.get()}")
@@ -38,7 +39,6 @@ allprojects {
             implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${thymeleaf.get()}")
             implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swagger.get()}")
             implementation("org.webjars:font-awesome:${font.get()}")
-            implementation("io.github.microutils:kotlin-logging:${klogging.get()}")
             developmentOnly("org.springframework.boot:spring-boot-devtools:${springboot.get()}")
             testImplementation("org.springframework.boot:spring-boot-starter-test:${springboot.get()}")
         }
