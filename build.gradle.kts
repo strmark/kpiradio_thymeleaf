@@ -53,10 +53,12 @@ allOpen {
 
 node {
     download.set(true)
-    version.set("18.18.2")
+    version.set("18.20.0")
 }
 
 val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRunBuild") {
+    description = "NPM build task."
+    group = JavaBasePlugin.BUILD_TASK_NAME
     args.set(listOf("run", "build"))
 
     dependsOn(tasks.npmInstall)
@@ -88,7 +90,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "8.6"
+    gradleVersion = "8.7"
 }
 
 tasks.withType<DependencyUpdatesTask> {
