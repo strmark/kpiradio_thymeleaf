@@ -2,7 +2,7 @@
 dependency = "1.1.4"
 font = "6.5.2"
 h2db = "2.2.224"
-klogging = "6.0.4"
+klogging = "6.0.9"
 kotlinversion = "1.9.23"
 manes = "0.51.0"
 node = "7.0.2"
