@@ -55,7 +55,7 @@ allOpen {
 
 node {
     download.set(true)
-    version.set("18.20.3")
+    version.set("20.15.0")
 }
 
 val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRunBuild") {
