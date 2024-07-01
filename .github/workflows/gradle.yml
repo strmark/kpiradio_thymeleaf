@@ -8,19 +8,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v4
-    - name: Set up JDK 17
+    - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         distribution: 'temurin' # See 'Supported distributions' for available options
-        java-version: '17'
+        java-version: '21'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Build with Gradle
       run: ./gradlew build -x test
-    - name: Build dependencyCheck
-      run: ./gradlew dependencyCheckAnalyze
+# currently disabled since it can't get the database for
+#    - name: Build dependencyCheck
+#      run: ./gradlew dependencyCheckAnalyze
