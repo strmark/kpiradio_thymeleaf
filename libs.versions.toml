@@ -1,9 +1,9 @@
 [versions]
 dependency = "1.1.6"
 font = "6.5.2"
-h2db = "2.3.230"
+h2db = "2.3.232"
 klogging = "7.0.0"
-kotlinversion = "2.0.0"
+kotlinversion = "2.0.10"
 manes = "0.51.0"
 node = "7.0.2"
 owasp = "10.0.3"
