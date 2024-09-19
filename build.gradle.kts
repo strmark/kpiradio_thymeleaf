@@ -54,7 +54,7 @@ allOpen {
 
 node {
     download.set(true)
-    version.set("20.15.1")
+    version.set("20.17.0")
 }
 
 val npmRunBuild = tasks.register<com.github.gradle.node.npm.task.NpmTask>("npmRunBuild") {
@@ -91,7 +91,7 @@ tasks.withType<Test> {
 }
 
 tasks.withType<Wrapper> {
-    gradleVersion = "8.9"
+    gradleVersion = "8.10.1"
 }
 
 tasks.withType<DependencyUpdatesTask> {
